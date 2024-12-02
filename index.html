@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>مشغل IPTV</title>
   <script src="https://kit.fontawesome.com/5a9af39ff6.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.plyr.io/3.6.8/plyr.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -29,6 +28,7 @@
       border-top: 1px solid #205a6b;
       z-index: 10;
     }
+
     .group {
       display: flex;
       flex-direction: column;
@@ -48,9 +48,11 @@
       transition: transform 0.3s ease-in-out;
       font-size: 25px;
     }
+
     .group img {
       display: none;
     }
+
     .group1 {
       display: flex;
       flex-direction: column;
@@ -72,12 +74,14 @@
     .channels1 {
       margin-top: 44px;
     }
+
     #channel-list {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
       margin-top: 20px;
     }
+
     .channel {
       background-color: #0499ad;
       border: 2px solid #205a6b;
@@ -93,6 +97,7 @@
       box-shadow: 0 4px 8px #205a6b;
       transition: transform 0.3s;
     }
+
     .channel img {
       margin: 5px;
       padding: 5px 0;
@@ -102,6 +107,7 @@
       height: 70px;
       border-radius: 10px;
     }
+
     #backBtn {
       display: none;
       position: fixed;
@@ -117,6 +123,7 @@
       cursor: pointer;
       font-size: 38px;
     }
+
     .navbar {
       position: fixed;
       top: 0;
@@ -132,6 +139,7 @@
       border-top: 1px solid #205a6b;
       z-index: 10;
     }
+
     h2 {
       position: relative;
       top: 0;
@@ -146,16 +154,68 @@
       font-size: 25px;
       z-index: 20;
     }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+
+    #searchBox {
+      position: fixed;
+      top: 12px;
+      left: 20px;
+      width: 80%;
+      padding: 10px;
+      font-size: 18px;
+      border: 2px solid #205a6b;
+      border-radius: 5px;
+      outline: none;
+      z-index: 20;
+    }
+
+    #searchButton {
+      position: fixed;
+      top: 5px;
+      right: 10px;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      background: none;
+      color: #fff;
+    }
+
+    button {
+      border: none;
+    }
+
+    #searchButton i {
+      font-size: 25px;
+      width: 24px;
+      height: 24px;
+      border: none;
+      color: #fff;
+    }
+
+    #searchButton:hover {
+      background-color: #0499ad;
+    }
+
+    .hidden {
+      display: none;
+    }
+
   </style>
 </head>
 <body>
-  <!-- محتويات الصفحة كما هي -->
-    <div class="navbar">
+  <div class="navbar">
     <button id="backBtn" onclick="showCategories()">&#8592;</button> 
     <h2 id="pageTitle">RAYAN TV</h2>
-      <button id="searchButton" onclick="toggleSearchBox()"><i class="fa-solid fa-magnifying-glass"></i>
-  </button>
+    <button id="searchButton" onclick="toggleSearchBox()"><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
+
   <div id="header">
     <div class="group1" onclick="loadCategories('live')">
       <p>Channels</p>
@@ -168,98 +228,22 @@
     </div>
     <div style="background-color:#fe9494;color: #fff; font-size:25px;box-shadow: none;background-color:#0499add7" class="group1"><i class="fa-solid fa-bars"></i></div>
   </div>
+
   <div class="channels1">
     <div id="channel-list"></div>
   </div>
-<div class="channels1">
-  
-  <div id="searchContainer" class="search-container hidden">
-    <input type="text" id="searchBox" placeholder="ابحث عن قناة..." oninput="filterChannels()">
+
+  <div class="channels1">
+    <div id="searchContainer" class="search-container hidden">
+      <input type="text" id="searchBox" placeholder="ابحث عن قناة..." oninput="filterChannels()">
+    </div>
   </div>
 
-  <div id="channel-list"></div>
-</div>
-
-<style>
-  .search-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    transition: all 0.3s ease;
-  }
-
-  #searchBox {
-    position: fixed;
-    top: 12px;
-    left: 20px;
-    width: 80%;
-    padding: 10px;
-    font-size: 18px;
-    border: 2px solid #205a6b;
-    border-radius: 5px;
-    outline: none;
-    z-index: 20;
-  }
-
-  #searchButton {
-    position: fixed;
-    top: 5px;
-    right: 10px;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    background: none;
-    color: #fff;
-  }
-button{
-  border: none;
-}
-  #searchButton i{
-    font-size: 25px;
-    width: 24px;
-    height: 24px;
-    border: none;
-    color: #fff;
-  }
-
-  #searchButton:hover {
-    background-color: #0499ad;
-  }
-
-  .hidden {
-    display: none;
-  }
-</style>
-
-<script>
-  function toggleSearchBox() {
-    const searchContainer = document.getElementById('searchContainer');
-    if (searchContainer.classList.contains('hidden')) {
-      searchContainer.classList.remove('hidden');
-    } else {
-      searchContainer.classList.add('hidden');
-    }
-  }
-
-  function filterChannels() {
-    const searchValue = document.getElementById('searchBox').value.toLowerCase();
-    const channels = document.querySelectorAll('.channel');
-    
-    channels.forEach(channel => {
-      const channelName = channel.querySelector('p').innerText.toLowerCase();
-      if (channelName.includes(searchValue)) {
-        channel.style.display = 'flex';
-      } else {
-        channel.style.display = 'none';
-      }
-    });
-  }
-</script>
   <script>
-    const API_URL = 'http://swnord.online:2052'; // استخدام Proxy لحل CORS
+    const API_URL = 'http://swnord.online:2052';
     const USERNAME = '2397908905';
     const PASSWORD = '00764816';
+
     let player;
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -292,14 +276,14 @@ button{
         const div = document.createElement('div');
         div.className = 'group';
         div.innerHTML = `<img src="category_icon.png"><p>${category.category_name}</p>`;
-        div.onclick = () => loadChannels(category.category_id, type, category.category_name); // Pass category name
+        div.onclick = () => loadChannels(category.category_id, type, category.category_name);
         sidebar.appendChild(div);
       });
     }
 
     async function loadChannels(categoryId, type, categoryName) {
       document.getElementById('backBtn').style.display = 'block';
-      document.getElementById('pageTitle').innerText = categoryName; // Set group name in navbar
+      document.getElementById('pageTitle').innerText = categoryName; 
       const endpoint = type === 'live' ? `get_live_streams&category_id=${categoryId}` : type === 'movies' ? `get_vod_streams&category_id=${categoryId}` : `get_series&category_id=${categoryId}`;
       const channels = await fetchData(endpoint);
       displayChannels(channels);
@@ -308,22 +292,49 @@ button{
     function displayChannels(channels) {
       const channelList = document.getElementById('channel-list');
       channelList.innerHTML = '';
-
       channels.forEach(channel => {
-        const div = document.createElement('div');
-        div.className = 'channel';
-        div.innerHTML = `
-          <img src="${channel.stream_icon || 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjxlegowTV89qwUU7M4lVGBnIimwC_NZNRPnOXiO5-NC4uwRGL-iRM-83pH3w38eSASAbtgllAJ6sRp9dc860OCI0eElbhp2poE1tBafj00AloDlXUxDWOHdC96naxNnoowvcyiVUxhxsaIzPVPlwCEr33OZ5IaGgl_gFlnZRxX6Af3bSXCDqwVtkzgN4c/s320/S5.png'}" alt="${channel.name}" onerror="this.src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjxlegowTV89qwUU7M4lVGBnIimwC_NZNRPnOXiO5-NC4uwRGL-iRM-83pH3w38eSASAbtgllAJ6sRp9dc860OCI0eElbhp2poE1tBafj00AloDlXUxDWOHdC96naxNnoowvcyiVUxhxsaIzPVPlwCEr33OZ5IaGgl_gFlnZRxX6Af3bSXCDqwVtkzgN4c/s320/S5.png'">
+        const channelDiv = document.createElement('div');
+        channelDiv.className = 'channel';
+        channelDiv.innerHTML = `
+          <img src="${channel.logo}" alt="Channel Logo">
           <p>${channel.name}</p>
+          <button onclick="playChannel('${channel.stream_url}')">مشاهدة</button>
         `;
-        div.onclick = () => playChannel(channel.stream_url || channel.stream_link);
-        channelList.appendChild(div);
+        channelList.appendChild(channelDiv);
+      });
+    }
+
+    function playChannel(streamUrl) {
+      const videoPlayer = document.createElement('video');
+      videoPlayer.id = 'plyr-video';
+      videoPlayer.setAttribute('controls', true);
+      videoPlayer.setAttribute('autoplay', true);
+      videoPlayer.innerHTML = `<source src="${streamUrl}" type="video/mp4">`;
+      document.body.appendChild(videoPlayer);
+      player = new Plyr('#plyr-video');
+    }
+
+    function toggleSearchBox() {
+      const searchBox = document.getElementById('searchContainer');
+      searchBox.classList.toggle('hidden');
+    }
+
+    function filterChannels() {
+      const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+      const channels = document.querySelectorAll('.channel');
+      channels.forEach(channel => {
+        const channelName = channel.querySelector('p').innerText.toLowerCase();
+        if (channelName.includes(searchTerm)) {
+          channel.style.display = 'block';
+        } else {
+          channel.style.display = 'none';
+        }
       });
     }
 
     function showCategories() {
       document.getElementById('backBtn').style.display = 'none';
-      document.getElementById('pageTitle').innerText = 'RAYAN TV'; // Reset to default title
+      document.getElementById('pageTitle').innerText = 'RAYAN TV';
       loadCategories('live');
     }
   </script>
